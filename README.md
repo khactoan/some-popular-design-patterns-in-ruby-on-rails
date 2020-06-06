@@ -81,7 +81,19 @@ Rất đơn giản ta có thể giải quyết issue này bằng cách tạo th�
 
 Bây giờ các query của chúng ta đã có thể dễ dàng tái sử dụng đối với các models có cấu trúc schema tương tự.
 ## 4. Decorators
+Decorator là một design pattern cho phép bổ sung một behavior vào một object mà không ảnh hưởng đến behavior của các objects khác trong cùng một class. Sử dụng Decorator hữu ích trong việc cleaning up logic/code trong view và controller. Giả để thêm một user decorator ta sẽ thực hiện các bước sau:
 
+ 1. Tạo thư mục `app/decorator`
+ 2. Thêm `decorate` helper trong `ApplicationHelper`
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/11.png)
+ 3. Thêm `base_decorator.rb` vào thư mục `app/decorators` 
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/12.png)
+ 4. Tạo file user_decorator.rb trong `app/decorators`
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/13.png)
+ 5. Init `@user_decorator` ở controller
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/14.png)
+ 6. Sử dụng decorator đã init ở controller vào view
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/15.png)
 
 Bài viết được tham khảo từ nguồn: 
  - [Refactoring a fat Rails Model](https://medium.com/@jaysadiq/refactoring-a-fat-rails-model-dc3cfda64d22)
