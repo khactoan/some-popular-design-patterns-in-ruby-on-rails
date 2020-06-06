@@ -54,7 +54,7 @@ Dễ dàng nhận ra ta có thể kết hợp `first_name`, `last_name` để d�
 ![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/4.png)
 ![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/5.png)
 
-## 3. Query Object
+## 3. Query Objects
 Query Object là một kiểu design pattern cho phép chuyển các query logic từ Controllers và Models vào các lớp tái sử dụng (Reusable Classes).
 Index controller dưới đây mô ta việc quert danh sách các bài Post có dạng "Video" và lớn hơn 100 lượt views.
 
@@ -103,6 +103,57 @@ Decorator là một design pattern cho phép bổ sung một behavior vào một
  6. Sử dụng decorator đã init ở controller vào view
 
 ![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/15.png)
+
+Ví dụ trên giúp ta hiểu rõ về cách implement Decorator, tuy nhiên khi làm dự án mình suggest các bạn có thể sử dụng gem [Draper](https://github.com/drapergem/draper)
+
+## 5. Form Objects
+Form Objects là một design pattern dùng để đóng gói các khối lệnh liên quan đến việc validate, persist data vào các đơn vị xử lý riêng biệt
+Giả sử ta có một rails post model và một action create post trong controller
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/16.png)
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/17.png)
+
+Vấn đề ở đây là Post Model chứa tất cả các validation logic và không tái sử dụng được ở các thành phần khác.
+
+Giải pháp của Form Objects đó là đưa phần validation logic vào một `class` chịu trách nhiệm riêng biệt
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/18.png)
+
+Giờ ta có thể dùng lại chúng trong `post_controller` hoặc bất cứ đâu nếu muốn
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/19.png)
+
+## 6. Value Objects
+Value Object biểu diễn các giá trị, điều đó có nghĩa là nó chỉ **return only values**
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/20.png)
+
+Với ví dụ trên ta có thể áp dụng Value Object design pattern do:
+
+ - Ta không thay đổi giá trị email
+ - Chỉ cần lấy giá trị của email
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/21.png)
+
+`EmailReport` bây giờ có thể sửa lại một cách gọn gàng hơn như sau
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/22.png)
+
+## 7. Policy Objects
+Policy object khá giống với Service Object, khác biệt giữa chúng là Policy Object chịu trách nhiệm cho `read operations` trong khi Service Object chịu trách nhiệm cho `write operations`. Với rails, ta có thể dùng [cancancan](https://github.com/CanCanCommunity/cancancan) hoặc [pundit](https://github.com/varvet/pundit) để phục vụ cho việc authorization. Để rõ hơn về Policy Object hãy cùng xem ví dụ dưới đây:
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/23.png)
+
+Tạo một user policy `app/policies/user_policy.rb`
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/24.png)
+
+Như ta có thể thấy ở ví dụ trên Policy Object đã thực hiệm nhiệm vụ authorization và return các giá trị boolean tương ứng.
+
+Bài viết trên mình đã chia sẻ về 7 design patterns thường được ứng dụng trong các áp dụng trong các dự án Ruby on Rails. Việc sử dụng design pattern vào các dự án thực tế là rất cần thiết tuy nhiên chúng ta cũng cần thực hành nhiều để có thể vận dụng design một cách hiệu quả nhất. 
+
+Cảm ơn các bạn đã đọc và giành thời gian tìm hiểu, chúc mọi người có một ngày làm việc vui vẻ!
 
 Bài viết được tham khảo từ nguồn: 
  - [Refactoring a fat Rails Model](https://medium.com/@jaysadiq/refactoring-a-fat-rails-model-dc3cfda64d22)
