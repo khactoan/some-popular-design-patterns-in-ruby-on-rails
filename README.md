@@ -1,4 +1,5 @@
 # Một vài design patterns phổ biến thường được sử dụng trong Ruby on Rails
+
 Chắc hẳn hầu hết các developers đều đã từng làm việc hoặc biết đến mô hình [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) trong phát phần mềm. Và dĩ nhiên Rails framework cũng được phát triển dựa trên mô hình đó.
 Với MVC, models chính là thành phần trung tâm nơi mà chúng ta thường viết các business logic, các hàm xử lý phức tạp. 
 
@@ -35,6 +36,51 @@ Những trường hợp nên dùng Service Objects:
 
 Ví dụ sau đây chúng ta sẽ tích hợp stripe payment bằng cách áp dụng Service Object. Stripe service sẽ tạo các stripe customers dựa trên email address hay token.
 Trước tiên cùng nhìn qua PaymentsController, ta có thể thấy controller rất đơn giản nhưng lại khá rõ ràng, mạch lạc do các xử lý đã được gói gọn trong Payment service.
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/1.png)
+
+`payment_service.rb` được đặt trong `app/services` folder
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/2.png)
+
+## 2. Views Objects (Presenter)
+View objects cho phép đóng gói các logic liên quan đến việc hiển thị và đảm bảo cho hai thành phần models và views được rõ ràng. View không nên chứa các tính toán logic.
+Để giải quyết các vấn đề logic ta có thể sử dụng rails helper, đối với các logic có độ phức tạp cao ta nên dùng Presenter. 
+Giả sử ta có ví dụ hiển thị thông tin user như sau: 
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/3.png)
+
+Dễ dàng nhận ra ta có thể kết hợp `first_name`, `last_name` để dùng về sau và code được tường mình hơn, cũng tương tự đối với việc đưa logic sử dụng class vào presenter
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/4.png)
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/5.png)
+
+## 3. Query Object
+Query Object là một kiểu design pattern cho phép chuyển các query logic từ Controllers và Models vào các lớp tái sử dụng (Reusable Classes).
+Index controller dưới đây mô ta việc quert danh sách các bài Post có dạng "Video" và lớn hơn 100 lượt views.
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/6.png)
+
+Vấn đề gặp phải ở đây là: 
+
+ - Không thể tái sử dụng code
+ - Khó khăn để test logic
+ - Những thay đổi trong schema có thể làm đoạn code trên không còn đúng đắn
+
+Ta sẽ refactor lại controller bằng cách sử dụng các scopes dưới đây:
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/7.png)
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/8.png)
+
+Đến đây controller đã gọn gàng hơn rất nhiều rồi, nhưng với models thì chưa hẳn đã thực sự tối ưu. Ta đã tạo các scopes cho mỗi condition như vậy sẽ làm tăng lượng code trong model và sự kết hợp các scopes trong các trường hợp tương tự.
+
+Rất đơn giản ta có thể giải quyết issue này bằng cách tạo thêm một Query Object: `video_query.rb`
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/9.png)
+
+![enter image description here](https://www.bacancytechnology.com/blog/wp-content/uploads/2019/12/10.png)
+
+Bây giờ các query của chúng ta đã có thể dễ dàng tái sử dụng đối với các models có cấu trúc schema tương tự.
+## 4. Decorators
 
 
 Bài viết được tham khảo từ nguồn: 
